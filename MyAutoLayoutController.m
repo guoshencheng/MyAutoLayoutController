@@ -29,131 +29,68 @@
 
 @implementation MyAutoLayoutController
 
+#pragma mark - PublicMethod
+
+- (CGRect)updateFrameWithLayoutValue:(CGFloat)value1 forFrame:(CGRect)frame1 value:(CGFloat)value2 forFrame:(CGRect)frame2 value:(CGFloat)value3 forFrame:(CGRect)frame3 value:(CGFloat)value4 forFrame:(CGRect)frame4 {
+    [self setAllValueAndFrameWithValue:value1 forFrame:frame1 value:value2 forFrame:frame2 value:value3 forFrame:frame3 value:value4 forFrame:frame4];
+    [self handleFrameConfigure];
+    return self.targetViewFrame;
+}
+
 - (id)initWithConstraintMode:(ConstraintMode)constraintMode value:(CGFloat)value1 forFrame:(CGRect)frame1 value:(CGFloat)value2 forFrame:(CGRect)frame2 value:(CGFloat)value3 forFrame:(CGRect)frame3 value:(CGFloat)value4 forFrame:(CGRect)frame4 targetViewFrame:(CGRect)targetViewFrame andSuperViewFrame:(CGRect)superViewFrame {
     if (self = [super init]) {
         self.constraintMode = constraintMode;
         self.targetViewFrame = targetViewFrame;
         self.superViewFrame = superViewFrame;
-        if (self.constraintMode == HeightWidthLeftTop) {
-            
-            [self initWithHeight:value1 width:value2 leftConstraint:value3 forLeftFrame:frame3 topConstrint:value4 forTopFrame:frame4];
-            
-        } else if(self.constraintMode == HeightWidthLeftBottom) {
-            
-            [self initWithHeight:value1 width:value2 leftConstraint:value3 forLeftFrame:frame3 bottomConstrint:value4 forBottomFrame:frame4];
-            
-        } else if(self.constraintMode == HeightWidthRightBottom) {
-            
-            [self initWithHeight:value1 width:value2 rightConstraint:value3 forRightFrame:frame3 bottomConstrint:value4 forBottomFrame:frame4];
-            
-        } else if(self.constraintMode == HeightWidthRightTop) {
-            
-            [self initWithHeight:value1 width:value2 rightConstraint:value3 forRightFrame:frame3 topConstrint:value4 forTopFrame:frame4];
-            
-        } else if (self.constraintMode == HeightLeftRightTop) {
-            
-            [self initWithHeight:value1 leftConstraint:value2 forLeftFrame:frame2 rightConstraint:value3 forRightFrame:frame3 topConstraint:value4 forTopFrame:frame4];
-            
-        } else if (self.constraintMode == HeightLeftRightBottom) {
-            
-            [self initWithHeight:value1 leftConstraint:value2 forLeftFrame:frame2 rightConstraint:value3 forRightFrame:frame3 bottomConstrint:value4 forBottomFrame:frame4];
-            
-        } else if (self.constraintMode == WidthTopBottomLeft) {
-            [self initWithWidth:value1 topConstraint:value2 forTopFrame:frame2 bottomConstrint:value3 forBottomFrame:frame3 leftConstraint:value4 forLeftFrame:frame4];
-            
-        } else if (self.constraintMode == WidthTopBottomRight) {
-            
-            [self initWithWidth:value1 topConstraint:value2 forTopFrame:frame2 bottomConstrint:value3 forBottomFrame:frame3 rightConstraint:value4 forRightFrame:frame4];
-            
-        } else if (self.constraintMode == TopLeftBottomRight) {
-            [self initWithTopConstrint:value1 forTopFrame:frame1 leftConstraint:value2 forLeftFrame:frame2 bottomConstrint:value3 forBottomFrame:frame3 rightConstraint:value4 forRightFrame:frame4];
-            
-        } else if (self.constraintMode == HeightWidthCenterLeftCenterTop) {
-            
-            [self initWithHeight:value1 width:value2 leftCenterConstraint:value3 topCenterConstrint:value4];
-            
-        } else if (self.constraintMode == HeightWidthCenterLeftTop) {
-            
-            [self initWithHeight:value1 width:value2 leftCenterConstraint:value3 topConstraint:value4 forTopFrame:frame4];
-            
-        } else if (self.constraintMode == HeightWidthCenterLeftBottom) {
-            
-            [self initWithHeight:value1 width:value2 leftCenterConstraint:value3 bottomConstraint:value4 forBottomFrame:frame4];
-            
-        } else if (self.constraintMode == HeightWidthLeftCenterTop) {
-            
-            [self initWithHeight:value1 width:value2 leftConstraint:value3  forLeftFrame:frame3 topCenterConstrint:value4];
-            
-        } else if (self.constraintMode == HeightWidthRightCenterTop) {
-            
-            [self initWithHeight:value1 width:value2 rightConstraint:value3 forRightFrame:frame3 topCenterConstrint:value4];
-            
-        }
+        [self setAllValueAndFrameWithValue:value1 forFrame:frame1 value:value2 forFrame:frame2 value:value3 forFrame:frame3 value:value4 forFrame:frame4];
+        [self handleFrameConfigure];
     }
     return self;
 }
 
-#pragma mark - based function
+#pragma mark - PrivateMethod
 
-- (CGFloat)getFrameOriginXWithLeftConstraint:(CGFloat)leftConstraint andLeftViewFrame:(CGRect)leftViewFrame {
-    CGFloat frameOriginX = 0.0;
-    if ([self isEqualBetweenRect:leftViewFrame andAntherRect:SUPER_RECT]) {
-        frameOriginX = leftConstraint;
-    } else {
-        frameOriginX = leftViewFrame.origin.x + leftViewFrame.size.width + leftConstraint;
-    }
-    return  frameOriginX;
+- (void)setAllValueAndFrameWithValue:(CGFloat)value1 forFrame:(CGRect)frame1 value:(CGFloat)value2 forFrame:(CGRect)frame2 value:(CGFloat)value3 forFrame:(CGRect)frame3 value:(CGFloat)value4 forFrame:(CGRect)frame4 {
+    self.value1 = value1;
+    self.value2 = value2;
+    self.value3 = value3;
+    self.value4 = value4;
+    self.frame1 = frame1;
+    self.frame2 = frame2;
+    self.frame3 = frame3;
+    self.frame4 = frame4;
 }
 
-- (CGFloat)getFrameOriginYWithTopConstraint:(CGFloat)topConstraint andTopViewFrame:(CGRect)TopViewFrame {
-    CGFloat frameOriginY = 0.0;
-    if ([self isEqualBetweenRect:TopViewFrame andAntherRect:SUPER_RECT]) {
-        frameOriginY = topConstraint;
-    } else {
-        frameOriginY = TopViewFrame.origin.y + TopViewFrame.size.height + topConstraint;
+- (void)handleFrameConfigure {
+    if (self.constraintMode == HeightWidthLeftTop) {
+        [self initWithHeight:self.value1 width:self.value2 leftConstraint:self.value3 forLeftFrame:self.frame3 topConstrint:self.value4 forTopFrame:self.frame4];
+    } else if(self.constraintMode == HeightWidthLeftBottom) {
+        [self initWithHeight:self.value1 width:self.value2 leftConstraint:self.value3 forLeftFrame:self.frame3  bottomConstrint:self.value4 forBottomFrame:self.frame4];
+    } else if(self.constraintMode == HeightWidthRightBottom) {
+        [self initWithHeight:self.value1 width:self.value2 rightConstraint:self.value3 forRightFrame:self.frame3  bottomConstrint:self.value4 forBottomFrame:self.frame4];
+    } else if(self.constraintMode == HeightWidthRightTop) {
+        [self initWithHeight:self.value1 width:self.value2 rightConstraint:self.value3 forRightFrame:self.frame3  topConstrint:self.value4 forTopFrame:self.frame4];
+    } else if (self.constraintMode == HeightLeftRightTop) {
+        [self initWithHeight:self.value1 leftConstraint:self.value2 forLeftFrame:self.frame2 rightConstraint:self.value3 forRightFrame:self.frame3  topConstraint:self.value4 forTopFrame:self.frame4];
+    } else if (self.constraintMode == HeightLeftRightBottom) {
+        [self initWithHeight:self.value1 leftConstraint:self.value2 forLeftFrame:self.frame2 rightConstraint:self.value3 forRightFrame:self.frame3  bottomConstrint:self.value4 forBottomFrame:self.frame4];
+    } else if (self.constraintMode == WidthTopBottomLeft) {
+        [self initWithWidth:self.value1 topConstraint:self.value2 forTopFrame:self.frame2 bottomConstrint:self.value3 forBottomFrame:self.frame3  leftConstraint:self.value4 forLeftFrame:self.frame4];
+    } else if (self.constraintMode == WidthTopBottomRight) {
+        [self initWithWidth:self.value1 topConstraint:self.value2 forTopFrame:self.frame2 bottomConstrint:self.value3 forBottomFrame:self.frame3  rightConstraint:self.value4 forRightFrame:self.frame4];
+    } else if (self.constraintMode == TopLeftBottomRight) {
+        [self initWithTopConstrint:self.value1 forTopFrame:self.frame1 leftConstraint:self.value2 forLeftFrame:self.frame2 bottomConstrint:self.value3 forBottomFrame:self.frame3  rightConstraint:self.value4 forRightFrame:self.frame4];
+    } else if (self.constraintMode == HeightWidthCenterLeftCenterTop) {
+        [self initWithHeight:self.value1 width:self.value2 leftCenterConstraint:self.value3 topCenterConstrint:self.value4];
+    } else if (self.constraintMode == HeightWidthCenterLeftTop) {
+        [self initWithHeight:self.value1 width:self.value2 leftCenterConstraint:self.value3 topConstraint:self.value4 forTopFrame:self.frame4];
+    } else if (self.constraintMode == HeightWidthCenterLeftBottom) {
+        [self initWithHeight:self.value1 width:self.value2 leftCenterConstraint:self.value3 bottomConstraint:self.value4 forBottomFrame:self.frame4];
+    } else if (self.constraintMode == HeightWidthLeftCenterTop) {
+        [self initWithHeight:self.value1 width:self.value2 leftConstraint:self.value3  forLeftFrame:self.frame3 topCenterConstrint:self.value4];
+    } else if (self.constraintMode == HeightWidthRightCenterTop) {
+        [self initWithHeight:self.value1 width:self.value2 rightConstraint:self.value3 forRightFrame:self.frame3 topCenterConstrint:self.value4];
     }
-    return  frameOriginY;
-}
-
-- (CGFloat)getFrameSizeWidthWithRightConstraint:(CGFloat)rightConstraint andRightViewFrame:(CGRect)rightViewFrame andFrameOriginX:(CGFloat)frameOriginX {
-    CGFloat frameSizeWidth = 0.0;
-    if ([self isEqualBetweenRect:rightViewFrame andAntherRect:SUPER_RECT]) {
-        frameSizeWidth = self.superViewFrame.size.width - frameOriginX - rightConstraint;
-    } else {
-        frameSizeWidth = rightViewFrame.origin.x - frameOriginX - rightConstraint;
-    }
-    return frameSizeWidth;
-}
-
-- (CGFloat)getFrameSizeHeightBottomConstraint:(CGFloat)bottomConstraint andBottomViewFrame:(CGRect)bottomViewFrame andFrameOriginY:(CGFloat)frameOriginY {
-    CGFloat frameSizeHeight = 0.0;
-    if ([self isEqualBetweenRect:bottomViewFrame andAntherRect:SUPER_RECT]) {
-        frameSizeHeight = self.superViewFrame.size.height - frameOriginY - bottomConstraint;
-    } else {
-        frameSizeHeight = bottomViewFrame.origin.y - frameOriginY - bottomConstraint;
-    }
-    return frameSizeHeight;
-}
-
-- (CGFloat)getFrameOriginXWithRightConstraint:(CGFloat)rightConstraint andRightFrame:(CGRect)rightFrame andFrameSizeWidth:(CGFloat)width {
-    CGFloat frameOriginX = 0.0;
-    if ([self isEqualBetweenRect:rightFrame andAntherRect:SUPER_RECT]) {
-        frameOriginX = self.superViewFrame.size.width - rightConstraint - width;
-    } else {
-        frameOriginX = rightFrame.origin.x - rightConstraint - width;
-    }
-    return  frameOriginX;
-}
-
-- (CGFloat)getFrameOriginYWithBottomConstraint:(CGFloat)bottomConstraint andBottomFrame:(CGRect)bottomFrame andFrameSizeHeight:(CGFloat)
-height {
-    CGFloat frameOrightY = 0.0;
-    if ([self isEqualBetweenRect:bottomFrame andAntherRect:SUPER_RECT]) {
-        frameOrightY = self.superViewFrame.size.height - bottomConstraint - height;
-    } else {
-        frameOrightY = bottomFrame.origin.y - bottomConstraint - height;
-    }
-    return frameOrightY;
 }
 
 #pragma mark - all AutoLayout Function
@@ -254,7 +191,70 @@ height {
     self.targetViewFrame = CGRectMake(frameOriginX, frameOriginY, width, height);
 }
 
-#pragma mark - tools
+#pragma mark - based function
+
+- (CGFloat)getFrameOriginXWithLeftConstraint:(CGFloat)leftConstraint andLeftViewFrame:(CGRect)leftViewFrame {
+    CGFloat frameOriginX = 0.0;
+    if ([self isEqualBetweenRect:leftViewFrame andAntherRect:SUPER_RECT]) {
+        frameOriginX = leftConstraint;
+    } else {
+        frameOriginX = leftViewFrame.origin.x + leftViewFrame.size.width + leftConstraint;
+    }
+    return  frameOriginX;
+}
+
+- (CGFloat)getFrameOriginYWithTopConstraint:(CGFloat)topConstraint andTopViewFrame:(CGRect)TopViewFrame {
+    CGFloat frameOriginY = 0.0;
+    if ([self isEqualBetweenRect:TopViewFrame andAntherRect:SUPER_RECT]) {
+        frameOriginY = topConstraint;
+    } else {
+        frameOriginY = TopViewFrame.origin.y + TopViewFrame.size.height + topConstraint;
+    }
+    return  frameOriginY;
+}
+
+- (CGFloat)getFrameSizeWidthWithRightConstraint:(CGFloat)rightConstraint andRightViewFrame:(CGRect)rightViewFrame andFrameOriginX:(CGFloat)frameOriginX {
+    CGFloat frameSizeWidth = 0.0;
+    if ([self isEqualBetweenRect:rightViewFrame andAntherRect:SUPER_RECT]) {
+        frameSizeWidth = self.superViewFrame.size.width - frameOriginX - rightConstraint;
+    } else {
+        frameSizeWidth = rightViewFrame.origin.x - frameOriginX - rightConstraint;
+    }
+    return frameSizeWidth;
+}
+
+- (CGFloat)getFrameSizeHeightBottomConstraint:(CGFloat)bottomConstraint andBottomViewFrame:(CGRect)bottomViewFrame andFrameOriginY:(CGFloat)frameOriginY {
+    CGFloat frameSizeHeight = 0.0;
+    if ([self isEqualBetweenRect:bottomViewFrame andAntherRect:SUPER_RECT]) {
+        frameSizeHeight = self.superViewFrame.size.height - frameOriginY - bottomConstraint;
+    } else {
+        frameSizeHeight = bottomViewFrame.origin.y - frameOriginY - bottomConstraint;
+    }
+    return frameSizeHeight;
+}
+
+- (CGFloat)getFrameOriginXWithRightConstraint:(CGFloat)rightConstraint andRightFrame:(CGRect)rightFrame andFrameSizeWidth:(CGFloat)width {
+    CGFloat frameOriginX = 0.0;
+    if ([self isEqualBetweenRect:rightFrame andAntherRect:SUPER_RECT]) {
+        frameOriginX = self.superViewFrame.size.width - rightConstraint - width;
+    } else {
+        frameOriginX = rightFrame.origin.x - rightConstraint - width;
+    }
+    return  frameOriginX;
+}
+
+- (CGFloat)getFrameOriginYWithBottomConstraint:(CGFloat)bottomConstraint andBottomFrame:(CGRect)bottomFrame andFrameSizeHeight:(CGFloat)
+height {
+    CGFloat frameOrightY = 0.0;
+    if ([self isEqualBetweenRect:bottomFrame andAntherRect:SUPER_RECT]) {
+        frameOrightY = self.superViewFrame.size.height - bottomConstraint - height;
+    } else {
+        frameOrightY = bottomFrame.origin.y - bottomConstraint - height;
+    }
+    return frameOrightY;
+}
+
+#pragma mark - Rect tools
 
 - (BOOL)isEqualBetweenRect:(CGRect)rect1 andAntherRect:(CGRect)rect2 {
     BOOL isEqual = NO;

@@ -17,7 +17,7 @@ self.leftView.backgroundColor = [UIColor redColor];
 
 #import <UIKit/UIKit.h>
 
-#define SUPER_RECT CGRectMake(0, 0, 0, 0)
+#define SUPER_RECT CGRectZero
 
 typedef enum  {
     HeightWidthLeftTop,
@@ -44,25 +44,37 @@ typedef enum  {
 @interface MyAutoLayoutController : NSObject
 
 @property (assign, nonatomic) ConstraintMode constraintMode;
-//constraints to other view
-@property (assign, nonatomic) CGFloat constraintOfLeftView;
-@property (assign, nonatomic) CGFloat constraintOfTopView;
-@property (assign, nonatomic) CGFloat constraintOfRightiew;
-@property (assign, nonatomic) CGFloat constraintOfBottomView;
+
+@property (assign, nonatomic) CGFloat value1;
+@property (assign, nonatomic) CGFloat value2;
+@property (assign, nonatomic) CGFloat value3;
+@property (assign, nonatomic) CGFloat value4;
 
 //frame of target
+
 @property (assign, nonatomic) CGRect targetViewFrame;
 
 //frame of connect View
+
 @property (assign, nonatomic) CGRect superViewFrame;
 
-@property (assign, nonatomic) CGRect leftBrotherViewFrame;
-@property (assign, nonatomic) CGRect rightBrotherViewFrame;
-@property (assign, nonatomic) CGRect topBrotherViewFrame;
-@property (assign, nonatomic) CGRect bottomBrotherViewFrame;
+@property (assign, nonatomic) CGRect frame1;
+@property (assign, nonatomic) CGRect frame2;
+@property (assign, nonatomic) CGRect frame3;
+@property (assign, nonatomic) CGRect frame4;
 
 - (id)initWithConstraintMode:(ConstraintMode)constraintMode value:(CGFloat)value1 forFrame:(CGRect)frame1 value:(CGFloat)value2 forFrame:(CGRect)frame2 value:(CGFloat)value3 forFrame:(CGRect)frame3 value:(CGFloat)value4 forFrame:(CGRect)frame4 targetViewFrame:(CGRect)targetViewFrame andSuperViewFrame:(CGRect)superViewFrame;
 
+- (CGRect)updateFrameWithLayoutValue:(CGFloat)value1 forFrame:(CGRect)frame1 value:(CGFloat)value2 forFrame:(CGRect)frame2 value:(CGFloat)value3 forFrame:(CGRect)frame3 value:(CGFloat)value4 forFrame:(CGRect)frame4;
 
+//Public for it test in testTests.m
+
+- (CGFloat)getFrameOriginYWithBottomConstraint:(CGFloat)bottomConstraint andBottomFrame:(CGRect)bottomFrame andFrameSizeHeight:(CGFloat)
+height;
+- (CGFloat)getFrameOriginXWithRightConstraint:(CGFloat)rightConstraint andRightFrame:(CGRect)rightFrame andFrameSizeWidth:(CGFloat)width;
+- (CGFloat)getFrameSizeHeightBottomConstraint:(CGFloat)bottomConstraint andBottomViewFrame:(CGRect)bottomViewFrame andFrameOriginY:(CGFloat)frameOriginY;
+- (CGFloat)getFrameSizeWidthWithRightConstraint:(CGFloat)rightConstraint andRightViewFrame:(CGRect)rightViewFrame andFrameOriginX:(CGFloat)frameOriginX;
+- (CGFloat)getFrameOriginYWithTopConstraint:(CGFloat)topConstraint andTopViewFrame:(CGRect)TopViewFrame;
+- (CGFloat)getFrameOriginXWithLeftConstraint:(CGFloat)leftConstraint andLeftViewFrame:(CGRect)leftViewFrame;
 
 @end
